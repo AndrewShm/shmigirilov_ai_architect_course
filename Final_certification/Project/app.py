@@ -1,5 +1,6 @@
+from pathlib import Path
 import os
-from werkzeug import secure_filename # самая первая ошибка: cannot import name 'secure_filename' from 'werkzeug'
+from werkzeug.utils import secure_filename # самая первая ошибка: cannot import name 'secure_filename' from 'werkzeug'
 
 import numpy as np
 import tensorflow as tf
@@ -9,9 +10,9 @@ from keras.preprocessing.image import ImageDataGenerator
 import shutil
 
 try:
-    shutil.rmtree('/uploaded/image')
-    % cd uploaded % mkdir image % cd .. # строка, которая вызывает ошибку синтаксиса (при коммите строки 2 и редактировании строки 54)
-	print()
+    shutil.rmtree('uploaded/image')
+    os.mkdir('uploaded')
+    os.mkdir('uploaded/image')
 except:
 	pass
 
@@ -47,11 +48,11 @@ def finds():
     return pred_text
 
 
-@app.route('/uploader', methods=['GET', 'POST'])
+@app.route('/uploader', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
         f = request.files['file']
-        f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename))) # строка, на которой возникает ошибка пути, после того как закомитил строки 12 и 13
+        f.save(Path().resolve() / 'D:/Work/Innopolis/Homework/ai_architect_course/shmigirilov_ai_architect_course/Final_certification/Project/uploaded/image' / secure_filename(f.filename))
         val = finds()
         return render_template('pred.html', ss=val)
 
