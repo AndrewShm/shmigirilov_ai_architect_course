@@ -10,17 +10,13 @@ from keras.preprocessing.image import ImageDataGenerator
 import shutil
 
 try:
-    shutil.rmtree('uploaded/image')
-    os.mkdir('uploaded')
-    os.mkdir('uploaded/image')
+    Path('./uploaded').mkdir()
+    Path('./uploaded/image').mkdir()
 except:
 	pass
 
 model = tf.keras.models.load_model('best_model.h5')
 app = Flask(__name__)
-
-UPLOAD_FOLDER = '/uploaded/image'
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -30,7 +26,7 @@ def upload_f():
 
 def finds():
     test_datagen = ImageDataGenerator(rescale=1. / 255)
-    test_dir = UPLOAD_FOLDER
+    test_dir = str(Path('./uploaded/image').resolve())
     test_generator = test_datagen.flow_from_directory(
         test_dir,
         target_size=(300, 300),
@@ -52,7 +48,7 @@ def finds():
 def upload_file():
     if request.method == 'POST':
         f = request.files['file']
-        f.save(Path().resolve() / 'D:/Work/Innopolis/Homework/ai_architect_course/shmigirilov_ai_architect_course/Final_certification/Project/uploaded/image' / secure_filename(f.filename))
+        f.save(str(Path(f'./uploaded/image/{secure_filename(f.filename)}').resolve()))
         val = finds()
         return render_template('pred.html', ss=val)
 
