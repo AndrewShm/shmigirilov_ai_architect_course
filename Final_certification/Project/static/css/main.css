@@ -1,0 +1,23 @@
+.text_block {
+    width: 50%;
+}
+
+.pred_block {
+    width: 220px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+}
+
+footer p {
+    position: relative;
+    left: 20px;
+}
+
+form {
+    margin: 5%;
+}

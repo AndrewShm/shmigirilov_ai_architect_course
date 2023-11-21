@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css"
+		rel="stylesheet" type="text/css" />
+	<link class="jsbin" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+		  rel="stylesheet" type="text/css">
+	<link class="jsbin" rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" type="text/css">
+	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+	<meta charset=utf-8 />
+
+	<script src="{{ url_for('static', filename='upload.js') }}"></script>
+
+	<style>
+		article,
+		aside,
+		figure,
+		footer,
+		header,
+		hgroup,
+		menu,
+		nav,
+		section {
+			display: block;
+		}
+	</style>
+	<title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+	<header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a href="/" class="nav-link px-2 text-white">Загрузка детали</a></li>
+                    <li><a href="#" class="nav-link px-2 text-secondary">Результат модели</a></li>
+                    <li><a href="/faqs" class="nav-link px-2 text-white">Вопросы</a></li>
+                    <li><a href="/about" class="nav-link px-2 text-white">О программе</a></li>
+                </ul>
+
+                <div class="text-end">
+                    <span class="badge d-flex align-items-center p-1 pe-2 text-success-emphasis bg-success-subtle border border-success-subtle rounded-pill">
+                        <img class="rounded-circle me-1" width="24" height="24" src="../static/image/1.jpg" alt="">
+                        «Железный Шминтеллект» ver. 1.0
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+        {% block body %}{% endblock %}
+    <div class="footer container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <img src="../static/image/2.jpg" alt="twbs" width="32" height="32" class="opacity-75 rounded-circle flex-shrink-0">
+            <p class="opacity-75 col-md-4 mb-0 text-body-secondary">
+                Андрей Шмигирилов © 2023 </p>
+
+            <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+
+        </footer>
+    </div>
+</body>
+
+</html>

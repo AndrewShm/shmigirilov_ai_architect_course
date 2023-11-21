@@ -1,21 +1,22 @@
 from pathlib import Path
 import os
-from werkzeug.utils import secure_filename # самая первая ошибка: cannot import name 'secure_filename' from 'werkzeug'
+from werkzeug.utils import secure_filename
 
 import numpy as np
 import tensorflow as tf
 from flask import Flask, render_template, request
 from keras.preprocessing.image import ImageDataGenerator
+from keras.preprocessing import image
 
 import shutil
 
-try:
-    Path('./uploaded').mkdir()
-    Path('./uploaded/image').mkdir()
-except:
-	pass
+shutil.rmtree('uploaded')
+Path('./uploaded').mkdir()
+Path('./uploaded/image').mkdir()
 
 model = tf.keras.models.load_model('best_model.h5')
+
+
 app = Flask(__name__)
 
 
@@ -24,18 +25,23 @@ def upload_f():
     return render_template('upload.html')
 
 
-def finds():
-    test_datagen = ImageDataGenerator(rescale=1. / 255)
-    test_dir = str(Path('./uploaded/image').resolve())
-    test_generator = test_datagen.flow_from_directory(
-        test_dir,
-        target_size=(300, 300),
-        color_mode="rgb",
-        shuffle=False,
-        class_mode='binary',
-        batch_size=1)
+@app.route('/faqs')
+def faqs():
+    return render_template('faqs.html')
 
-    pred = model.predict_generator(test_generator)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+
+def finds(image_path):
+    img = image.load_img(image_path, target_size=(300, 300))
+    x = image.img_to_array(img)
+    x = x / 255.0
+    x = x.reshape((1, 300, 300, 3))
+    pred = model.predict(x)
+
     if pred > 0.5:
         pred_text = 'def_front'
     else:
@@ -48,8 +54,9 @@ def finds():
 def upload_file():
     if request.method == 'POST':
         f = request.files['file']
-        f.save(str(Path(f'./uploaded/image/{secure_filename(f.filename)}').resolve()))
-        val = finds()
+        image_path = str(Path(f'./uploaded/image/{secure_filename(f.filename)}').resolve())
+        f.save(image_path)
+        val = finds(image_path)
         return render_template('pred.html', ss=val)
 
 
